@@ -6,18 +6,20 @@ export default function PostRequirement() {
   const [requirement, setRequirement] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  async function submitForm() {
-    await fetch("http://127.0.0.1:8000/leads", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        contact,
-        requirement,
-      }),
-    });
+  function submitForm() {
+    const message = `
+New Requirement Received
+
+Name: ${name}
+Contact: ${contact}
+
+Requirement:
+${requirement}
+    `;
+
+    // Open email client
+    window.location.href =
+      `mailto:shebeaditya@gmail.com?subject=New Project Requirement&body=${encodeURIComponent(message)}`;
 
     setSubmitted(true);
   }
@@ -26,7 +28,7 @@ export default function PostRequirement() {
     return (
       <div style={{ padding: 40, textAlign: "center" }}>
         <h2>Thanks! 🎉</h2>
-        <p>I’ve received your requirement.</p>
+        <p>Your requirement has been submitted.</p>
         <p>I’ll contact you shortly.</p>
       </div>
     );
