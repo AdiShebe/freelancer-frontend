@@ -4,6 +4,8 @@ export default function PostRequirement() {
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [requirement, setRequirement] = useState("");
+  const [budget, setBudget] = useState("");
+  const [timeline, setTimeline] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   function submitForm() {
@@ -12,6 +14,9 @@ New Requirement – AutomateX
 
 Name: ${name}
 Contact: ${contact}
+
+Estimated Budget: ${budget}
+Preferred Timeline: ${timeline}
 
 Requirement:
 ${requirement}
@@ -46,14 +51,14 @@ ${requirement}
             boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
           }}
         >
-          <h2 style={{ marginBottom: "12px", color: "#111827" }}>
+          <h2 style={{ color: "#111827", marginBottom: "12px" }}>
             Thank you! 🎉
           </h2>
-          <p style={{ color: "#374151", marginBottom: "16px" }}>
-            Your requirement has been successfully submitted.
+          <p style={{ color: "#374151", marginBottom: "12px" }}>
+            Your requirement has been received.
           </p>
           <p style={{ fontSize: "14px", color: "#6b7280" }}>
-            I’ll personally review it and contact you shortly.
+            I personally review every request and will contact you shortly.
           </p>
         </div>
       </div>
@@ -63,7 +68,7 @@ ${requirement}
   const labelStyle = {
     fontSize: "14px",
     fontWeight: "600",
-    color: "#111827", // DARK LABEL
+    color: "#111827",
   };
 
   const inputStyle = {
@@ -73,7 +78,7 @@ ${requirement}
     borderRadius: "8px",
     border: "1px solid #d1d5db",
     fontSize: "14px",
-    color: "#111827", // TYPED TEXT BLACK
+    color: "#111827",
   };
 
   return (
@@ -86,7 +91,7 @@ ${requirement}
     >
       <div
         style={{
-          maxWidth: "620px",
+          maxWidth: "640px",
           margin: "0 auto",
           background: "#ffffff",
           padding: "40px",
@@ -96,17 +101,17 @@ ${requirement}
       >
         {/* HEADER */}
         <div style={{ marginBottom: "30px" }}>
-          <h2 style={{ marginBottom: "8px", color: "#111827" }}>
+          <h2 style={{ color: "#111827", marginBottom: "8px" }}>
             Tell Us About Your Requirement
           </h2>
           <p style={{ fontSize: "14px", color: "#374151" }}>
-            Share a few details and we’ll help you with the best automation or web
-            solution. No signup required.
+            Share a few details and get a free consultation.
+            No signup. No obligation.
           </p>
         </div>
 
         {/* NAME */}
-        <div style={{ marginBottom: "20px" }}>
+        <div style={{ marginBottom: "18px" }}>
           <label style={labelStyle}>Your Name</label>
           <input
             value={name}
@@ -117,7 +122,7 @@ ${requirement}
         </div>
 
         {/* CONTACT */}
-        <div style={{ marginBottom: "20px" }}>
+        <div style={{ marginBottom: "18px" }}>
           <label style={labelStyle}>Email or WhatsApp Number</label>
           <input
             value={contact}
@@ -127,14 +132,45 @@ ${requirement}
           />
         </div>
 
+        {/* BUDGET */}
+        <div style={{ marginBottom: "18px" }}>
+          <label style={labelStyle}>Estimated Budget</label>
+          <select
+            value={budget}
+            onChange={(e) => setBudget(e.target.value)}
+            style={inputStyle}
+          >
+            <option value="">Select a range</option>
+            <option value="₹5k – ₹10k">₹5k – ₹10k</option>
+            <option value="₹10k – ₹25k">₹10k – ₹25k</option>
+            <option value="₹25k – ₹50k">₹25k – ₹50k</option>
+            <option value="₹50k+">₹50k+</option>
+          </select>
+        </div>
+
+        {/* TIMELINE */}
+        <div style={{ marginBottom: "18px" }}>
+          <label style={labelStyle}>Preferred Timeline</label>
+          <select
+            value={timeline}
+            onChange={(e) => setTimeline(e.target.value)}
+            style={inputStyle}
+          >
+            <option value="">Select timeline</option>
+            <option value="ASAP (1–2 weeks)">ASAP (1–2 weeks)</option>
+            <option value="Flexible (2–4 weeks)">Flexible (2–4 weeks)</option>
+            <option value="Just exploring">Just exploring</option>
+          </select>
+        </div>
+
         {/* REQUIREMENT */}
-        <div style={{ marginBottom: "28px" }}>
+        <div style={{ marginBottom: "26px" }}>
           <label style={labelStyle}>Project Requirement</label>
           <textarea
             value={requirement}
             onChange={(e) => setRequirement(e.target.value)}
             rows={6}
-            placeholder="Describe what you want to build or automate. Mention goals, timeline, or tools if any."
+            placeholder="Describe what you want to build or automate. Mention goals, tools, or constraints if any."
             style={{
               ...inputStyle,
               resize: "vertical",
@@ -159,7 +195,7 @@ ${requirement}
           Get Free Consultation
         </button>
 
-        {/* TRUST NOTE */}
+        {/* TRUST / FOUNDER LINE */}
         <p
           style={{
             marginTop: "18px",
@@ -168,7 +204,8 @@ ${requirement}
             textAlign: "center",
           }}
         >
-          We respond personally. Your details are never shared.
+          Every request is reviewed personally by the founder.  
+          Your details are never shared.
         </p>
       </div>
     </div>
