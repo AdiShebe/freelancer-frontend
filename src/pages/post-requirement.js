@@ -46,7 +46,9 @@ ${requirement}
             boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
           }}
         >
-          <h2 style={{ marginBottom: "12px" }}>Thank you! 🎉</h2>
+          <h2 style={{ marginBottom: "12px", color: "#111827" }}>
+            Thank you! 🎉
+          </h2>
           <p style={{ color: "#374151", marginBottom: "16px" }}>
             Your requirement has been successfully submitted.
           </p>
@@ -57,6 +59,22 @@ ${requirement}
       </div>
     );
   }
+
+  const labelStyle = {
+    fontSize: "14px",
+    fontWeight: "600",
+    color: "#111827", // DARK LABEL
+  };
+
+  const inputStyle = {
+    width: "100%",
+    padding: "12px",
+    marginTop: "6px",
+    borderRadius: "8px",
+    border: "1px solid #d1d5db",
+    fontSize: "14px",
+    color: "#111827", // TYPED TEXT BLACK
+  };
 
   return (
     <div
@@ -78,72 +96,47 @@ ${requirement}
       >
         {/* HEADER */}
         <div style={{ marginBottom: "30px" }}>
-          <h2 style={{ marginBottom: "8px" }}>
+          <h2 style={{ marginBottom: "8px", color: "#111827" }}>
             Tell Us About Your Requirement
           </h2>
-          <p style={{ fontSize: "14px", color: "#6b7280" }}>
-            Share a few details and we’ll help you with the best automation or web solution.
-            No signup required.
+          <p style={{ fontSize: "14px", color: "#374151" }}>
+            Share a few details and we’ll help you with the best automation or web
+            solution. No signup required.
           </p>
         </div>
 
         {/* NAME */}
         <div style={{ marginBottom: "20px" }}>
-          <label style={{ fontSize: "14px", fontWeight: "600" }}>
-            Your Name
-          </label>
+          <label style={labelStyle}>Your Name</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="John Doe"
-            style={{
-              width: "100%",
-              padding: "12px",
-              marginTop: "6px",
-              borderRadius: "8px",
-              border: "1px solid #d1d5db",
-              fontSize: "14px",
-            }}
+            style={inputStyle}
           />
         </div>
 
         {/* CONTACT */}
         <div style={{ marginBottom: "20px" }}>
-          <label style={{ fontSize: "14px", fontWeight: "600" }}>
-            Email or WhatsApp Number
-          </label>
+          <label style={labelStyle}>Email or WhatsApp Number</label>
           <input
             value={contact}
             onChange={(e) => setContact(e.target.value)}
-            placeholder="email@example.com or +91 XXXXXXXX"
-            style={{
-              width: "100%",
-              padding: "12px",
-              marginTop: "6px",
-              borderRadius: "8px",
-              border: "1px solid #d1d5db",
-              fontSize: "14px",
-            }}
+            placeholder="email@example.com or +91 XXXXXXXXXX"
+            style={inputStyle}
           />
         </div>
 
         {/* REQUIREMENT */}
         <div style={{ marginBottom: "28px" }}>
-          <label style={{ fontSize: "14px", fontWeight: "600" }}>
-            Project Requirement
-          </label>
+          <label style={labelStyle}>Project Requirement</label>
           <textarea
             value={requirement}
             onChange={(e) => setRequirement(e.target.value)}
             rows={6}
-            placeholder="Describe what you want to build or automate. Mention goals, timeline, or tools if you have any preference."
+            placeholder="Describe what you want to build or automate. Mention goals, timeline, or tools if any."
             style={{
-              width: "100%",
-              padding: "12px",
-              marginTop: "6px",
-              borderRadius: "8px",
-              border: "1px solid #d1d5db",
-              fontSize: "14px",
+              ...inputStyle,
               resize: "vertical",
             }}
           />
@@ -171,7 +164,7 @@ ${requirement}
           style={{
             marginTop: "18px",
             fontSize: "12px",
-            color: "#6b7280",
+            color: "#374151",
             textAlign: "center",
           }}
         >
