@@ -1,6 +1,9 @@
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 
+emailjs.init("P4hovcZLmnMUHh_p8");
+
+
 
 export default function PostRequirement() {
   const [name, setName] = useState("");
@@ -12,44 +15,63 @@ export default function PostRequirement() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  function submitForm() {
-    if (!name || !email || !requirement) {
-      alert("Please fill all required fields.");
-      return;
-    }
+function submitForm() {
+  if (!name || !email || !requirement) {
+    alert("Please fill all required fields.");
+    return;
+  }
 
-    setLoading(true);
+  setLoading(true);
 
-    const data = {
-      name,
-      email,
-      whatsapp,
-      requirement,
-      budget,
-      timeline,
-    };
+  const data = {
+    name,
+    email,
+    whatsapp,
+    requirement,
+    budget,
+    timeline,
+  };
 
-    // 1️⃣ Send lead email to YOU
-    emailjs.send(
-      "service_automatex",          // ✅ your Service ID
-      "template_kinc99j",       // 🔁 replace with real Template ID
-      data,
-      "P4hovcZLmnMUHh_p8"             // 🔁 replace with real Public Key
-    );
-
-    // 2️⃣ Send auto-reply to CLIENT (EMAIL ONLY)
-    emailjs.send(
+  // 1️⃣ Send lead email to YOU
+  emailjs
+    .send(
       "service_automatex",
-      "template_7p6d3le",     // 🔁 replace with real Template ID
+      "template_kinc99j",
       data,
       "P4hovcZLmnMUHh_p8"
+    )
+    .then(
+      (result) => {
+        console.log("✅ Lead email sent successfully:", result.text);
+      },
+      (error) => {
+        console.error("❌ Lead email FAILED:", error);
+      }
     );
 
-    setTimeout(() => {
-      setSubmitted(true);
-      setLoading(false);
-    }, 1000);
-  }
+  // 2️⃣ Send auto-reply email to CLIENT
+  emailjs
+    .send(
+      "service_automatex",
+      "template_7p6d3le",
+      data,
+      "P4hovcZLmnMUHh_p8"
+    )
+    .then(
+      (result) => {
+        console.log("✅ Auto-reply sent successfully:", result.text);
+      },
+      (error) => {
+        console.error("❌ Auto-reply FAILED:", error);
+      }
+    );
+
+  setTimeout(() => {
+    setSubmitted(true);
+    setLoading(false);
+  }, 1000);
+}
+
 
   if (submitted) {
     return (
