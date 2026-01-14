@@ -1,31 +1,54 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
+
 
 export default function PostRequirement() {
   const [name, setName] = useState("");
-  const [contact, setContact] = useState("");
+  const [email, setEmail] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
   const [requirement, setRequirement] = useState("");
   const [budget, setBudget] = useState("");
   const [timeline, setTimeline] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function submitForm() {
-    const message = `
-New Requirement – AutomateX
+    if (!name || !email || !requirement) {
+      alert("Please fill all required fields.");
+      return;
+    }
 
-Name: ${name}
-Contact: ${contact}
+    setLoading(true);
 
-Estimated Budget: ${budget}
-Preferred Timeline: ${timeline}
+    const data = {
+      name,
+      email,
+      whatsapp,
+      requirement,
+      budget,
+      timeline,
+    };
 
-Requirement:
-${requirement}
-    `;
+    // 1️⃣ Send lead email to YOU
+    emailjs.send(
+      "service_automatex",          // ✅ your Service ID
+      "template_kinc99j",       // 🔁 replace with real Template ID
+      data,
+      "P4hovcZLmnMUHh_p8"             // 🔁 replace with real Public Key
+    );
 
-    window.location.href =
-      `mailto:shebeaditya@gmail.com?subject=New Project Requirement (AutomateX)&body=${encodeURIComponent(message)}`;
+    // 2️⃣ Send auto-reply to CLIENT (EMAIL ONLY)
+    emailjs.send(
+      "service_automatex",
+      "template_7p6d3le",     // 🔁 replace with real Template ID
+      data,
+      "P4hovcZLmnMUHh_p8"
+    );
 
-    setSubmitted(true);
+    setTimeout(() => {
+      setSubmitted(true);
+      setLoading(false);
+    }, 1000);
   }
 
   if (submitted) {
@@ -54,11 +77,11 @@ ${requirement}
           <h2 style={{ color: "#111827", marginBottom: "12px" }}>
             Thank you! 🎉
           </h2>
-          <p style={{ color: "#374151", marginBottom: "12px" }}>
-            Your requirement has been received.
+          <p style={{ color: "#374151", marginBottom: "10px" }}>
+            Your requirement has been submitted successfully.
           </p>
           <p style={{ fontSize: "14px", color: "#6b7280" }}>
-            I personally review every request and will contact you shortly.
+            I personally review every request and will get back to you shortly.
           </p>
         </div>
       </div>
@@ -99,36 +122,44 @@ ${requirement}
           boxShadow: "0 12px 30px rgba(0,0,0,0.08)",
         }}
       >
-        {/* HEADER */}
-        <div style={{ marginBottom: "30px" }}>
-          <h2 style={{ color: "#111827", marginBottom: "8px" }}>
-            Tell Us About Your Requirement
-          </h2>
-          <p style={{ fontSize: "14px", color: "#374151" }}>
-            Share a few details and get a free consultation.
-            No signup. No obligation.
-          </p>
-        </div>
+        <h2 style={{ marginBottom: "10px", color: "#111827" }}>
+          Tell Us About Your Requirement
+        </h2>
+        <p style={{ fontSize: "14px", color: "#374151", marginBottom: "30px" }}>
+          Get a free consultation. No signup. No obligation.
+        </p>
 
         {/* NAME */}
         <div style={{ marginBottom: "18px" }}>
-          <label style={labelStyle}>Your Name</label>
+          <label style={labelStyle}>Your Name *</label>
           <input
+            style={inputStyle}
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="John Doe"
-            style={inputStyle}
           />
         </div>
 
-        {/* CONTACT */}
+        {/* EMAIL */}
         <div style={{ marginBottom: "18px" }}>
-          <label style={labelStyle}>Email or WhatsApp Number</label>
+          <label style={labelStyle}>Email Address *</label>
           <input
-            value={contact}
-            onChange={(e) => setContact(e.target.value)}
-            placeholder="email@example.com or +91 XXXXXXXXXX"
             style={inputStyle}
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+          />
+        </div>
+
+        {/* WHATSAPP */}
+        <div style={{ marginBottom: "18px" }}>
+          <label style={labelStyle}>WhatsApp Number (optional)</label>
+          <input
+            style={inputStyle}
+            value={whatsapp}
+            onChange={(e) => setWhatsapp(e.target.value)}
+            placeholder="+91 XXXXXXXXXX"
           />
         </div>
 
@@ -136,15 +167,15 @@ ${requirement}
         <div style={{ marginBottom: "18px" }}>
           <label style={labelStyle}>Estimated Budget</label>
           <select
+            style={inputStyle}
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
-            style={inputStyle}
           >
-            <option value="">Select a range</option>
-            <option value="₹5k – ₹10k">₹5k – ₹10k</option>
-            <option value="₹10k – ₹25k">₹10k – ₹25k</option>
-            <option value="₹25k – ₹50k">₹25k – ₹50k</option>
-            <option value="₹50k+">₹50k+</option>
+            <option value="">Select budget</option>
+            <option>₹5k – ₹10k</option>
+            <option>₹10k – ₹25k</option>
+            <option>₹25k – ₹50k</option>
+            <option>₹50k+</option>
           </select>
         </div>
 
@@ -152,35 +183,32 @@ ${requirement}
         <div style={{ marginBottom: "18px" }}>
           <label style={labelStyle}>Preferred Timeline</label>
           <select
+            style={inputStyle}
             value={timeline}
             onChange={(e) => setTimeline(e.target.value)}
-            style={inputStyle}
           >
             <option value="">Select timeline</option>
-            <option value="ASAP (1–2 weeks)">ASAP (1–2 weeks)</option>
-            <option value="Flexible (2–4 weeks)">Flexible (2–4 weeks)</option>
-            <option value="Just exploring">Just exploring</option>
+            <option>ASAP (1–2 weeks)</option>
+            <option>Flexible (2–4 weeks)</option>
+            <option>Just exploring</option>
           </select>
         </div>
 
         {/* REQUIREMENT */}
         <div style={{ marginBottom: "26px" }}>
-          <label style={labelStyle}>Project Requirement</label>
+          <label style={labelStyle}>Project Requirement *</label>
           <textarea
+            style={{ ...inputStyle, resize: "vertical" }}
+            rows={6}
             value={requirement}
             onChange={(e) => setRequirement(e.target.value)}
-            rows={6}
-            placeholder="Describe what you want to build or automate. Mention goals, tools, or constraints if any."
-            style={{
-              ...inputStyle,
-              resize: "vertical",
-            }}
+            placeholder="Describe what you want to build or automate..."
           />
         </div>
 
-        {/* CTA */}
         <button
           onClick={submitForm}
+          disabled={loading}
           style={{
             width: "100%",
             padding: "14px",
@@ -190,12 +218,12 @@ ${requirement}
             borderRadius: "10px",
             fontSize: "15px",
             cursor: "pointer",
+            opacity: loading ? 0.7 : 1,
           }}
         >
-          Get Free Consultation
+          {loading ? "Submitting..." : "Get Free Consultation"}
         </button>
 
-        {/* TRUST / FOUNDER LINE */}
         <p
           style={{
             marginTop: "18px",
@@ -204,8 +232,7 @@ ${requirement}
             textAlign: "center",
           }}
         >
-          Every request is reviewed personally by the founder.  
-          Your details are never shared.
+          Every request is reviewed personally by the founder.
         </p>
       </div>
     </div>
