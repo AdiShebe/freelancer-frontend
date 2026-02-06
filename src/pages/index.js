@@ -24,7 +24,7 @@ export default function Home() {
       <section
         className="py-32 text-center text-white relative"
         style={{
-          backgroundImage: "url('/images/automation-bg.png')",
+          backgroundImage: "url('/images/bg.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
