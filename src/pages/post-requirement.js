@@ -1,9 +1,6 @@
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 
-// ✅ REQUIRED for live usage
-emailjs.init("P4hovcZLmnMUHh_p8");
-
 export default function PostRequirement() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -11,8 +8,8 @@ export default function PostRequirement() {
   const [requirement, setRequirement] = useState("");
   const [budget, setBudget] = useState("");
   const [timeline, setTimeline] = useState("");
-  const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   function submitForm() {
     if (!name || !email || !requirement) {
@@ -31,37 +28,19 @@ export default function PostRequirement() {
       timeline,
     };
 
-    // 1️⃣ Send lead email to YOU
-    emailjs
-      .send(
-        "service_vheoua2",      // ✅ UPDATED SERVICE ID
-        "template_kinc99j",     // ✅ Lead template ID
-        data
-      )
-      .then(
-        (result) => {
-          console.log("✅ Lead email sent successfully:", result.text);
-        },
-        (error) => {
-          console.error("❌ Lead email FAILED:", error);
-        }
-      );
+    emailjs.send(
+      "service_vheoua2",
+      "template_kinc99j",
+      data,
+      "P4hovcZLmnMUHh_p8"
+    );
 
-    // 2️⃣ Send auto-reply to CLIENT
-    emailjs
-      .send(
-        "service_vheoua2",      // ✅ UPDATED SERVICE ID
-        "template_7p6d3le",     // ✅ Auto-reply template ID
-        data
-      )
-      .then(
-        (result) => {
-          console.log("✅ Auto-reply sent successfully:", result.text);
-        },
-        (error) => {
-          console.error("❌ Auto-reply FAILED:", error);
-        }
-      );
+    emailjs.send(
+      "service_vheoua2",
+      "template_7p6d3le",
+      data,
+      "P4hovcZLmnMUHh_p8"
+    );
 
     setTimeout(() => {
       setSubmitted(true);
@@ -71,187 +50,87 @@ export default function PostRequirement() {
 
   if (submitted) {
     return (
-      <div
-        style={{
-          minHeight: "80vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          background: "#f9fafb",
-          padding: "20px",
-        }}
-      >
-        <div
-          style={{
-            background: "#ffffff",
-            padding: "40px",
-            borderRadius: "12px",
-            maxWidth: "520px",
-            width: "100%",
-            textAlign: "center",
-            boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
-          }}
-        >
-          <h2 style={{ color: "#111827", marginBottom: "12px" }}>
-            Thank you! 🎉
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="bg-white p-10 rounded-xl shadow-md text-center max-w-md">
+          <h2 className="text-2xl font-semibold mb-4">
+            Thank you!
           </h2>
-          <p style={{ color: "#374151", marginBottom: "10px" }}>
-            Your requirement has been submitted successfully.
-          </p>
-          <p style={{ fontSize: "14px", color: "#6b7280" }}>
-            I personally review every request and will get back to you shortly.
+          <p className="text-gray-600">
+            Your requirement has been received.  
+            We’ll contact you within 24 hours.
           </p>
         </div>
       </div>
     );
   }
 
-  const labelStyle = {
-    fontSize: "14px",
-    fontWeight: "600",
-    color: "#111827",
-  };
-
-  const inputStyle = {
-    width: "100%",
-    padding: "12px",
-    marginTop: "6px",
-    borderRadius: "8px",
-    border: "1px solid #d1d5db",
-    fontSize: "14px",
-    color: "#111827",
-  };
-
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#f3f4f6",
-        padding: "60px 20px",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "640px",
-          margin: "0 auto",
-          background: "#ffffff",
-          padding: "40px",
-          borderRadius: "14px",
-          boxShadow: "0 12px 30px rgba(0,0,0,0.08)",
-        }}
-      >
-        <h2 style={{ marginBottom: "10px", color: "#111827" }}>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6">
+      <div className="bg-white w-full max-w-2xl p-10 rounded-xl shadow-md">
+        <h1 className="text-2xl font-semibold mb-2 text-center">
           Tell Us About Your Requirement
-        </h2>
-        <p style={{ fontSize: "14px", color: "#374151", marginBottom: "30px" }}>
-          Get a free consultation. No signup. No obligation.
+        </h1>
+        <p className="text-gray-600 text-center mb-8">
+          Share a few details and we’ll get back to you within 24 hours.
         </p>
 
-        {/* NAME */}
-        <div style={{ marginBottom: "18px" }}>
-          <label style={labelStyle}>Your Name *</label>
+        <div className="space-y-5">
           <input
-            style={inputStyle}
+            type="text"
+            placeholder="Your Name *"
+            className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="John Doe"
           />
-        </div>
 
-        {/* EMAIL */}
-        <div style={{ marginBottom: "18px" }}>
-          <label style={labelStyle}>Email Address *</label>
           <input
-            style={inputStyle}
             type="email"
+            placeholder="Email *"
+            className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
           />
-        </div>
 
-        {/* WHATSAPP */}
-        <div style={{ marginBottom: "18px" }}>
-          <label style={labelStyle}>WhatsApp Number (optional)</label>
           <input
-            style={inputStyle}
+            type="text"
+            placeholder="WhatsApp Number (optional)"
+            className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={whatsapp}
             onChange={(e) => setWhatsapp(e.target.value)}
-            placeholder="+91 XXXXXXXXXX"
           />
-        </div>
 
-        {/* BUDGET */}
-        <div style={{ marginBottom: "18px" }}>
-          <label style={labelStyle}>Estimated Budget</label>
-          <select
-            style={inputStyle}
-            value={budget}
-            onChange={(e) => setBudget(e.target.value)}
-          >
-            <option value="">Select budget</option>
-            <option>₹5k – ₹10k</option>
-            <option>₹10k – ₹25k</option>
-            <option>₹25k – ₹50k</option>
-            <option>₹50k+</option>
-          </select>
-        </div>
-
-        {/* TIMELINE */}
-        <div style={{ marginBottom: "18px" }}>
-          <label style={labelStyle}>Preferred Timeline</label>
-          <select
-            style={inputStyle}
-            value={timeline}
-            onChange={(e) => setTimeline(e.target.value)}
-          >
-            <option value="">Select timeline</option>
-            <option>ASAP (1–2 weeks)</option>
-            <option>Flexible (2–4 weeks)</option>
-            <option>Just exploring</option>
-          </select>
-        </div>
-
-        {/* REQUIREMENT */}
-        <div style={{ marginBottom: "26px" }}>
-          <label style={labelStyle}>Project Requirement *</label>
           <textarea
-            style={{ ...inputStyle, resize: "vertical" }}
-            rows={6}
+            placeholder="Describe your requirement *"
+            rows={5}
+            className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={requirement}
             onChange={(e) => setRequirement(e.target.value)}
-            placeholder="Describe what you want to build or automate..."
           />
+
+          <input
+            type="text"
+            placeholder="Budget (optional)"
+            className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={budget}
+            onChange={(e) => setBudget(e.target.value)}
+          />
+
+          <input
+            type="text"
+            placeholder="Timeline (optional)"
+            className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={timeline}
+            onChange={(e) => setTimeline(e.target.value)}
+          />
+
+          <button
+            onClick={submitForm}
+            disabled={loading}
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+          >
+            {loading ? "Submitting..." : "Get Free Consultation"}
+          </button>
         </div>
-
-        <button
-          onClick={submitForm}
-          disabled={loading}
-          style={{
-            width: "100%",
-            padding: "14px",
-            background: "#111827",
-            color: "#ffffff",
-            border: "none",
-            borderRadius: "10px",
-            fontSize: "15px",
-            cursor: "pointer",
-            opacity: loading ? 0.7 : 1,
-          }}
-        >
-          {loading ? "Submitting..." : "Get Free Consultation"}
-        </button>
-
-        <p
-          style={{
-            marginTop: "18px",
-            fontSize: "12px",
-            color: "#374151",
-            textAlign: "center",
-          }}
-        >
-          Every request is reviewed personally by the founder.
-        </p>
       </div>
     </div>
   );
